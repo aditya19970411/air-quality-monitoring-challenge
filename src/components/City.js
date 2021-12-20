@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getAirQualityIndexObj } from "./EnhancedTable";
+import { getAirQualityIndexObj } from "./Main";
 import Chart from "react-apexcharts";
 
 const City = () => {

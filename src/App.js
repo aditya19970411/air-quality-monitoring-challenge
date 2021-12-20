@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import City from "./components/City";
-import EnhancedTable from "./components/EnhancedTable";
+import EnhancedTable from "./components/Main";
 
 const App = () => {
   return (

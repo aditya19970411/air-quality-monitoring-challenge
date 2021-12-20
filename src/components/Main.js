@@ -293,7 +293,7 @@ EnhancedTableToolbar.propTypes = {
   // numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+const Main = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("city");
   // const [selected, setSelected] = useState([]);
@@ -515,4 +515,6 @@ export default function EnhancedTable() {
       />
     </Box>
   );
-}
+};
+
+export default Main;
