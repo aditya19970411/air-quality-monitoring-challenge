@@ -113,15 +113,12 @@ const Compare = () => {
             data: cityTwoChartData.map((cd) => cd.aqi.toFixed(2)),
           },
         ]}
-        type="line"
+        type="area"
         width={750}
         height={350}
       />
       <div style={{ paddingTop: 40 }}>
-        <button
-          onClick={() => navigate(-1)}
-          style={{ padding: 8, cursor: "pointer" }}
-        >
+        <button className="btn" onClick={() => navigate(-1)}>
           Go Back
         </button>
       </div>

@@ -86,3 +86,15 @@
   font-size: 28px;
   padding-top: 30px;
 }
+
+.btn {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 10px 15px;
+  cursor: pointer;
+}

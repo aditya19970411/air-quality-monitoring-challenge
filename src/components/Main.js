@@ -51,13 +51,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const airQualityIndexColors = [
-  { min: 0, max: 51, color: "rgb(0,128,0)", condition: "Good", band: 1 },
+  {
+    min: 0,
+    max: 51,
+    color: "rgb(0,128,0)",
+    condition: "Good",
+    band: 1,
+    secondaryColor: "rgb(0,100,0)",
+  },
   {
     min: 51,
     max: 101,
     color: "rgb(133,187,101)",
     condition: "Satisfactory",
     band: 2,
+    secondaryColor: "rgb(116,195,101)",
   },
   {
     min: 101,
@@ -65,16 +73,32 @@ export const airQualityIndexColors = [
     color: "rgb(255,255,0)",
     condition: "Moderate",
     band: 3,
+    secondaryColor: "rgb(255,196,12)",
   },
-  { min: 201, max: 301, color: "rgb(255,165,0)", condition: "Poor", band: 4 },
+  {
+    min: 201,
+    max: 301,
+    color: "rgb(255,165,0)",
+    condition: "Poor",
+    band: 4,
+    secondaryColor: "rgb(255,140,0)",
+  },
   {
     min: 301,
     max: 401,
     color: "rgb(255,0,0)",
     condition: "Very Poor",
     band: 5,
+    secondaryColor: "rgb(178,34,34)",
   },
-  { min: 401, max: 500, color: "rgb(178,34,34)", condition: "Severe", band: 6 },
+  {
+    min: 401,
+    max: 500,
+    color: "rgb(178,34,34)",
+    condition: "Severe",
+    band: 6,
+    secondaryColor: "rgb(128,0,0)",
+  },
 ];
 
 export const getAirQualityIndexObj = (aqi) => {

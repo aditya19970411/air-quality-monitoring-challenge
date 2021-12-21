@@ -45,68 +45,137 @@ const City = () => {
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 50,
         flexDirection: "column",
+        maxWidth: "fit-content",
+        margin: "0px auto",
+        marginTop: 40,
       }}
     >
-      <Chart
-        options={{
-          chart: {
-            id: "apexchart-aqi",
-            toolbar: {
-              show: false,
+      <div
+        style={{
+          padding: 20,
+          height: 100,
+          backgroundColor:
+            chartData.length > 0
+              ? getAirQualityIndexObj(chartData[chartData.length - 1].aqi).color
+              : "black",
+          borderTopRightRadius: 8,
+          borderTopLeftRadius: 8,
+          boxShadow: "0 2px 20px 0 rgb(0 0 0 / 8%)",
+          display: "flex",
+        }}
+      >
+        <div
+          style={{
+            width: 100,
+            backgroundColor:
+              chartData.length > 0
+                ? getAirQualityIndexObj(chartData[chartData.length - 1].aqi)
+                    .secondaryColor
+                : "black",
+            display: "flex",
+            flexDirection: "column",
+            padding: 10,
+            color: "white",
+            fontWeight: "bold",
+            borderRadius: 4,
+          }}
+        >
+          <div>{slug} AQI</div>
+          <div style={{ marginTop: "auto" }}>
+            {chartData.length > 0
+              ? chartData[chartData.length - 1].aqi.toFixed(0)
+              : 0}
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "10px 20px",
+            fontWeight: "bold",
+            color:
+              chartData.length > 0
+                ? getAirQualityIndexObj(chartData[chartData.length - 1].aqi)
+                    .secondaryColor
+                : "black",
+          }}
+        >
+          <div style={{ fontSize: 12 }}>LIVE AQI INDEX</div>
+          <div style={{ fontSize: 30, lineHeight: "50px" }}>
+            {chartData.length > 0
+              ? getAirQualityIndexObj(chartData[chartData.length - 1].aqi)
+                  .condition
+              : ""}
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          boxShadow: "0 2px 20px 0 rgb(0 0 0 / 8%)",
+          padding: 20,
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
+        }}
+      >
+        <Chart
+          options={{
+            chart: {
+              id: "apexchart-aqi",
+              toolbar: {
+                show: false,
+              },
+              animations: {
+                enabled: false,
+              },
             },
-            animations: {
+            xaxis: {
+              type: "numeric",
+              labels: {
+                formatter: (val) => Number(val).toFixed(0),
+              },
+              title: {
+                text: "Seconds",
+              },
+            },
+            yaxis: {
+              title: {
+                text: "AQI Value",
+              },
+            },
+            fill: {
+              colors: [(series) => getAirQualityIndexObj(series.value).color],
+            },
+            // title: {
+            //   text: slug + " Air Quality Index",
+            //   align: "center",
+            // },
+            legend: {
+              show: true,
+            },
+            dataLabels: {
               enabled: false,
             },
-          },
-          xaxis: {
-            type: "numeric",
-            labels: {
-              formatter: (val) => Number(val).toFixed(0),
+          }}
+          series={[
+            {
+              name: "AQI",
+              data: chartData.map((cd) => cd.aqi.toFixed(2)),
             },
-            title: {
-              text: "Seconds",
-            },
-          },
-          yaxis: {
-            title: {
-              text: "AQI Value",
-            },
-          },
-          fill: {
-            colors: [(series) => getAirQualityIndexObj(series.value).color],
-          },
-          title: {
-            text: slug + " Air Quality Index",
-            align: "center",
-          },
-          legend: {
-            show: true,
-          },
-          dataLabels: {
-            enabled: false,
-          },
-        }}
-        series={[
-          {
-            name: "AQI",
-            data: chartData.map((cd) => cd.aqi.toFixed(2)),
-          },
-        ]}
-        type="bar"
-        width={750}
-        height={350}
-      />
-      <div style={{ paddingTop: 40 }}>
-        <button
-          onClick={() => navigate(-1)}
-          style={{ padding: 8, cursor: "pointer" }}
-        >
-          Go Back
-        </button>
+          ]}
+          type="bar"
+          width={750}
+          height={350}
+        />
+        <div style={{ paddingTop: 40 }}>
+          <button className="btn" onClick={() => navigate(-1)}>
+            Go Back
+          </button>
+        </div>
       </div>
     </div>
   );
