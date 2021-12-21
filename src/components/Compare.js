@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getAirQualityIndexObj } from "./Main";
 import Chart from "react-apexcharts";
 import moment from "moment";
 
-const City = () => {
-  const [chartData, setchartData] = useState([]);
+const Compare = () => {
+  const [cityOneChartData, setcityOneChartData] = useState([]);
+  const [cityTwoChartData, setcityTwoChartData] = useState([]);
   let { slug } = useParams();
   const navigate = useNavigate();
 
@@ -18,28 +18,35 @@ const City = () => {
       const { data } = event;
       const json = JSON.parse(data);
 
-      let tempChartData = [];
-      let found = json.find((js) => js.city === slug);
+      let tempCityOneChartData = [...cityOneChartData];
+      let tempCityTwoChartData = [...cityTwoChartData];
+      let foundCityOne = json.find((js) => js.city === slug.split("-")[0]);
+      let foundCityTwo = json.find((js) => js.city === slug.split("-")[1]);
 
-      chartData.forEach((cd) => {
-        if (moment(new Date()).diff(cd.created_at, "hours") <= 24) {
-          if (tempChartData.length > 60) tempChartData.shift();
-          tempChartData.push(cd);
-        }
-      });
-
-      if (found) {
-        if (tempChartData.length >= 60) tempChartData.shift();
-        tempChartData.push({ aqi: found.aqi, created_at: moment(new Date()) });
+      if (foundCityOne) {
+        if (tempCityOneChartData.length >= 60) tempCityOneChartData.shift();
+        tempCityOneChartData.push({
+          aqi: foundCityOne.aqi,
+          created_at: moment(new Date()),
+        });
       }
 
-      setchartData(tempChartData);
+      if (foundCityTwo) {
+        if (tempCityTwoChartData.length >= 60) tempCityTwoChartData.shift();
+        tempCityTwoChartData.push({
+          aqi: foundCityTwo.aqi,
+          created_at: moment(new Date()),
+        });
+      }
+
+      setcityOneChartData(tempCityOneChartData);
+      setcityTwoChartData(tempCityTwoChartData);
     };
 
     return () => {
       ws.close();
     };
-  }, [chartData, slug]);
+  }, [cityOneChartData, cityTwoChartData, slug]);
 
   return (
     <div
@@ -69,16 +76,22 @@ const City = () => {
             },
             title: {
               text: "Seconds",
+              style: { marginBottom: "10px" },
             },
           },
-          yaxis: {
-            title: {
-              text: "AQI Value",
+          yaxis: [
+            {
+              title: {
+                text: slug.split("-")[0] + " AQI Value",
+              },
             },
-          },
-          fill: {
-            colors: [(series) => getAirQualityIndexObj(series.value).color],
-          },
+            {
+              opposite: true,
+              title: {
+                text: slug.split("-")[1] + " AQI Value",
+              },
+            },
+          ],
           title: {
             text: slug + " Air Quality Index",
             align: "center",
@@ -92,11 +105,15 @@ const City = () => {
         }}
         series={[
           {
-            name: "AQI",
-            data: chartData.map((cd) => cd.aqi.toFixed(2)),
+            name: slug.split("-")[0] + " AQI",
+            data: cityOneChartData.map((cd) => cd.aqi.toFixed(2)),
+          },
+          {
+            name: slug.split("-")[1] + " AQI",
+            data: cityTwoChartData.map((cd) => cd.aqi.toFixed(2)),
           },
         ]}
-        type="bar"
+        type="line"
         width={750}
         height={350}
       />
@@ -112,4 +129,4 @@ const City = () => {
   );
 };
 
-export default City;
+export default Compare;

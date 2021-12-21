@@ -13,7 +13,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-// import Checkbox from "@mui/material/Checkbox";
+import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -172,12 +172,13 @@ const headCells = [
 
 function EnhancedTableHead(props) {
   const {
-    // onSelectAllClick,
+    onSelectAllClick,
     order,
     orderBy,
-    // numSelected,
-    // rowCount,
+    numSelected,
+    rowCount,
     onRequestSort,
+    showCheckBox,
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -186,17 +187,20 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <StyledTableRow>
-        {/* <StyledTableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </StyledTableCell> */}
+        {showCheckBox && (
+          <StyledTableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                "aria-label": "select all desserts",
+              }}
+              style={{ visibility: "hidden" }}
+            />
+          </StyledTableCell>
+        )}
         {headCells.map((headCell) => (
           <StyledTableCell
             key={headCell.id}
@@ -227,12 +231,13 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  // numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  // onSelectAllClick: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
-  // rowCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired,
+  showCheckBox: PropTypes.bool.isRequired,
 };
 
 const EnhancedTableToolbar = (props) => {
@@ -290,17 +295,18 @@ const EnhancedTableToolbar = (props) => {
 };
 
 EnhancedTableToolbar.propTypes = {
-  // numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired,
 };
 
 const Main = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("city");
-  // const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [airQualityData, setairQualityData] = useState([]);
+  const [compare, setCompare] = useState(false);
   const navigate = useNavigate();
 
   const handleRequestSort = (event, property) => {
@@ -309,34 +315,34 @@ const Main = () => {
     setOrderBy(property);
   };
 
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = airQualityData.map((n) => n.city);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = airQualityData.map((n) => n.city);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
 
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
+  const handleClick = (event, city) => {
+    const selectedIndex = selected.indexOf(city);
+    let newSelected = [];
 
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, city);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
 
-  //   setSelected(newSelected);
-  // };
+    setSelected(newSelected);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -347,11 +353,21 @@ const Main = () => {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
+  const handleChangeFormLabel = (event) => {
+    const { name, checked } = event.target;
+    switch (name) {
+      case "dense":
+        setDense(checked);
+        break;
+      case "compare":
+        setCompare(checked);
+        break;
+      default:
+        break;
+    }
   };
 
-  // const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -359,8 +375,8 @@ const Main = () => {
       ? Math.max(0, (1 + page) * rowsPerPage - airQualityData.length)
       : 0;
 
-  const handleClickRow = (row) => {
-    navigate(`/city/${row.city}`);
+  const handleClickRow = (city) => {
+    navigate(`/city/${city}`);
   };
 
   useEffect(() => {
@@ -410,12 +426,15 @@ const Main = () => {
     };
   }, [airQualityData]);
 
+  useEffect(() => {
+    const compare = selected.join("-");
+    if (selected.length === 2) navigate(`/compare/${compare}`);
+  }, [selected, navigate]);
+
   return (
     <Box sx={{ maxWidth: 750, margin: "40px auto 0 auto" }}>
       <Paper sx={{ maxWidth: 750, mb: 2 }}>
-        <EnhancedTableToolbar
-        // numSelected={selected.length}
-        />
+        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -423,12 +442,13 @@ const Main = () => {
             size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
-              // numSelected={selected.length}
+              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              // onSelectAllClick={handleSelectAllClick}
+              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              // rowCount={airQualityData.length}
+              rowCount={airQualityData.length}
+              showCheckBox={compare}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -436,7 +456,7 @@ const Main = () => {
               {stableSort(airQualityData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  // const isItemSelected = isSelected(row.city);
+                  const isItemSelected = isSelected(row.city);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -445,23 +465,29 @@ const Main = () => {
                       className={`${
                         Math.abs(row.band - row.previous_band) >= 3 && "quadrat"
                       }`}
-                      onClick={() => handleClickRow(row)}
+                      onClick={(event, name) =>
+                        compare
+                          ? handleClick(event, row.city)
+                          : handleClickRow(row.city)
+                      }
                       role="checkbox"
-                      // aria-checked={isItemSelected}
+                      aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.city}
-                      // selected={isItemSelected}
+                      selected={isItemSelected}
                     >
-                      {/* <StyledTableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                          style={{ zIndex: 100 }}
-                        />
-                      </StyledTableCell> */}
+                      {compare && (
+                        <StyledTableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                            style={{ zIndex: 100 }}
+                          />
+                        </StyledTableCell>
+                      )}
                       <StyledTableCell component="th" id={labelId} scope="row">
                         {row.city}
                       </StyledTableCell>
@@ -510,9 +536,20 @@ const Main = () => {
         />
       </Paper>
       <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        control={<Switch checked={dense} onChange={handleChangeFormLabel} />}
         label="Dense padding"
+        name="dense"
       />
+      {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
+      <FormControlLabel
+        control={<Switch checked={compare} onChange={handleChangeFormLabel} />}
+        label="Compare Cities"
+        name="compare"
+      />
+      <span style={{ fontSize: 12, marginLeft: -10 }}>
+        {compare && "( select any 2 cities )"}
+      </span>
+      {/* </div> */}
     </Box>
   );
 };
