@@ -1,1 +1,1 @@
-export const server_url = "ws://city-ws.herokuapp.com/";
+export const server_url = "wss://city-ws.herokuapp.com/";
