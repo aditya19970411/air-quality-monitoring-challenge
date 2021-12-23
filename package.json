@@ -2,7 +2,7 @@
   "name": "air-quality-monitoring",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://aditya19970411.github.io/air-quality-monitoring-challenge/",
+  "homepage": "http://aditya19970411.github.io/air-quality-monitoring-challenge/",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
