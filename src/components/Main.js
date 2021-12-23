@@ -24,6 +24,7 @@ import { visuallyHidden } from "@mui/utils";
 import { styled } from "@mui/system";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { server_url } from "../urls";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -405,7 +406,7 @@ const Main = () => {
 
   useEffect(() => {
     // Wesb Socket Url
-    const ws = new WebSocket("ws://city-ws.herokuapp.com/");
+    const ws = new WebSocket(server_url);
 
     const createData = (city, aqi) => {
       return {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Chart from "react-apexcharts";
 import moment from "moment";
+import { server_url } from "../urls";
 
 const Compare = () => {
   const [cityOneChartData, setcityOneChartData] = useState([]);
@@ -12,7 +13,7 @@ const Compare = () => {
 
   useEffect(() => {
     // Wesb Socket Url
-    const ws = new WebSocket("ws://city-ws.herokuapp.com/");
+    const ws = new WebSocket(server_url);
 
     ws.onmessage = async (event) => {
       const { data } = event;

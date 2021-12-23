@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAirQualityIndexObj } from "./Main";
 import Chart from "react-apexcharts";
 import moment from "moment";
+import { server_url } from "../urls";
 
 const City = () => {
   const [chartData, setchartData] = useState([]);
@@ -12,7 +13,7 @@ const City = () => {
 
   useEffect(() => {
     // Wesb Socket Url
-    const ws = new WebSocket("ws://city-ws.herokuapp.com/");
+    const ws = new WebSocket(server_url);
 
     ws.onmessage = async (event) => {
       const { data } = event;
