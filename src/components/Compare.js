@@ -113,7 +113,7 @@ const Compare = () => {
             data: cityTwoChartData.map((cd) => cd.aqi.toFixed(2)),
           },
         ]}
-        type="area"
+        type="line"
         width={750}
         height={350}
       />
