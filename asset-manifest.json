@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/air-quality-monitoring-challenge/static/css/main.5de94363.css",
-    "main.js": "/air-quality-monitoring-challenge/static/js/main.297cf285.js",
+    "main.js": "/air-quality-monitoring-challenge/static/js/main.7fd7f5f3.js",
     "static/js/787.27e62570.chunk.js": "/air-quality-monitoring-challenge/static/js/787.27e62570.chunk.js",
     "index.html": "/air-quality-monitoring-challenge/index.html",
     "main.5de94363.css.map": "/air-quality-monitoring-challenge/static/css/main.5de94363.css.map",
-    "main.297cf285.js.map": "/air-quality-monitoring-challenge/static/js/main.297cf285.js.map",
+    "main.7fd7f5f3.js.map": "/air-quality-monitoring-challenge/static/js/main.7fd7f5f3.js.map",
     "787.27e62570.chunk.js.map": "/air-quality-monitoring-challenge/static/js/787.27e62570.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5de94363.css",
-    "static/js/main.297cf285.js"
+    "static/js/main.7fd7f5f3.js"
   ]
 }
