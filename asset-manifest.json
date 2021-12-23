@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/air-quality-monitoring/static/css/main.5de94363.css",
-    "main.js": "/air-quality-monitoring/static/js/main.52817f2f.js",
-    "static/js/787.27e62570.chunk.js": "/air-quality-monitoring/static/js/787.27e62570.chunk.js",
-    "index.html": "/air-quality-monitoring/index.html",
-    "main.5de94363.css.map": "/air-quality-monitoring/static/css/main.5de94363.css.map",
-    "main.52817f2f.js.map": "/air-quality-monitoring/static/js/main.52817f2f.js.map",
-    "787.27e62570.chunk.js.map": "/air-quality-monitoring/static/js/787.27e62570.chunk.js.map"
+    "main.css": "/air-quality-monitoring-challenge/static/css/main.5de94363.css",
+    "main.js": "/air-quality-monitoring-challenge/static/js/main.297cf285.js",
+    "static/js/787.27e62570.chunk.js": "/air-quality-monitoring-challenge/static/js/787.27e62570.chunk.js",
+    "index.html": "/air-quality-monitoring-challenge/index.html",
+    "main.5de94363.css.map": "/air-quality-monitoring-challenge/static/css/main.5de94363.css.map",
+    "main.297cf285.js.map": "/air-quality-monitoring-challenge/static/js/main.297cf285.js.map",
+    "787.27e62570.chunk.js.map": "/air-quality-monitoring-challenge/static/js/787.27e62570.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5de94363.css",
-    "static/js/main.52817f2f.js"
+    "static/js/main.297cf285.js"
   ]
 }
